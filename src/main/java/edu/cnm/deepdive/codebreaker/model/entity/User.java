@@ -6,11 +6,19 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
+@Table(
+    name = "user_profile",
+    indexes = {
+        @Index(columnList = "created")
+    }
+)
 public class User {
 
   @Id
@@ -26,5 +34,37 @@ public class User {
   @Column(updatable = false, nullable = false)
   private Date created;
 
+  @Column(unique = true, nullable = false, updatable = false, length = 30)
+  private String oauthKey;
 
+  @Column(unique = true, nullable = false, length = 100)
+  private String displayName;
+
+  public UUID getId() {
+    return id;
+  }
+
+  public UUID getExternalKey() {
+    return externalKey;
+  }
+
+  public Date getCreated() {
+    return created;
+  }
+
+  public String getOauthKey() {
+    return oauthKey;
+  }
+
+  public void setOauthKey(String oauthKey) {
+    this.oauthKey = oauthKey;
+  }
+
+  public String getDisplayName() {
+    return displayName;
+  }
+
+  public void setDisplayName(String displayName) {
+    this.displayName = displayName;
+  }
 }
