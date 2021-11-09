@@ -18,13 +18,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.hibernate.annotations.CreationTimestamp;
 
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Table(
     name = "user_profile",
     indexes = {
         @Index(columnList = "created")
     }
-
 )
 public class User {
 
