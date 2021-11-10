@@ -17,6 +17,11 @@ import org.hibernate.annotations.CreationTimestamp;
 
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
+@Table(
+    indexes = {
+        @Index(columnList = "poolSize")
+    }
+)
 public class Game {
 
   @Id
@@ -38,6 +43,9 @@ public class Game {
 
   @Column(nullable = false, updatable = false, length = 255)
   private String pool;
+
+  @Column(nullable = false, updatable = false)
+  private int poolSize;
 
   @Column(nullable = false, updatable = false)
   private int length;
@@ -71,6 +79,14 @@ public class Game {
 
   public void setPool(String pool) {
     this.pool = pool;
+  }
+
+  public int getPoolSize() {
+    return poolSize;
+  }
+
+  public void setPoolSize(int poolSize) {
+    this.poolSize = poolSize;
   }
 
   public int getLength() {
