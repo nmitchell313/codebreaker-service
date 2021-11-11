@@ -1,3 +1,11 @@
+server:
+  error:
+    include-message: always
+  forward-headers-strategy: native
+  port: 1313
+  servlet:
+    context-path: /codebreaker
+
 spring:
   security:
     oauth2:
