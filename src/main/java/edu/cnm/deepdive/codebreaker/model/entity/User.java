@@ -1,5 +1,8 @@
 package edu.cnm.deepdive.codebreaker.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,9 +34,11 @@ public class User {
   @Id
   @GeneratedValue
   @Column(name = "user_id", updatable = false, columnDefinition = "UUID")
+  @JsonIgnore
   private UUID id;
 
   @Column(updatable = false, nullable = false, unique = true, columnDefinition = "UUID")
+  @JsonProperty(value = "id", access = Access.READ_ONLY)
   private UUID externalKey = UUID.randomUUID();
 
   @CreationTimestamp
@@ -42,6 +47,7 @@ public class User {
   private Date created;
 
   @Column(unique = true, nullable = false, updatable = false, length = 30)
+  @JsonIgnore
   private String oauthKey;
 
   @Column(unique = true, nullable = false, length = 100)
@@ -50,6 +56,7 @@ public class User {
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
       cascade = CascadeType.ALL, orphanRemoval = true)
   @OrderBy("created DESC")
+  @JsonIgnore
   private final List<Game> games = new LinkedList<>();
 
   public UUID getId() {
