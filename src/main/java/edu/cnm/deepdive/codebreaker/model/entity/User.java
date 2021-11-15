@@ -1,8 +1,11 @@
 package edu.cnm.deepdive.codebreaker.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,6 +32,8 @@ import org.hibernate.annotations.CreationTimestamp;
         @Index(columnList = "created")
     }
 )
+@JsonInclude(Include.NON_NULL)
+@JsonPropertyOrder({"id", "created", "displayName"})
 public class User {
 
   @Id
@@ -53,7 +58,7 @@ public class User {
   @Column(unique = true, nullable = false, length = 100)
   private String displayName;
 
-  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
+  @OneToMany(mappedBy = "user", fetch = FetchType.EAGER,
       cascade = CascadeType.ALL, orphanRemoval = true)
   @OrderBy("created DESC")
   @JsonIgnore
