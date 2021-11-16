@@ -74,6 +74,12 @@ public class GameService {
         .orElseThrow();
   }
 
+  public Optional<Guess> getGuess(UUID gameKey, UUID guessKey, User user) {
+    return gameRepository
+        .findByExternalKeyAndUser(gameKey, user)
+        .flatMap((game) -> guessRepository.findByGameAndExternalKey(game, guessKey));
+  }
+
   private void computeMatches(Guess guess, int[] guessCodePoints, int[] codeCodePoints) {
     int exactMatches = 0;
     Map<Integer, Integer> guessCodePointCounts = new HashMap<>();
