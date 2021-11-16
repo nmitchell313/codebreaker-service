@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.codebreaker.controller;
 
+import edu.cnm.deepdive.codebreaker.model.entity.Game;
 import edu.cnm.deepdive.codebreaker.model.entity.Guess;
 import edu.cnm.deepdive.codebreaker.service.GameService;
 import edu.cnm.deepdive.codebreaker.service.UserService;
@@ -29,14 +30,23 @@ public class GuessController {
 
   @PostMapping(
       consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Guess post(@PathVariable UUID gameKey, @RequestBody Guess guess) {
-    return gameService.processGuess(gameKey, guess, userService.getCurrentUser());
+  public Guess post(@PathVariable UUID gameKey, @RequestBody Guess guess) {
+    return gameService
+        .processGuess(gameKey, guess, userService.getCurrentUser());
   }
 
   @GetMapping(value = "/{guessKey}", produces = MediaType.APPLICATION_JSON_VALUE)
   public Guess get(@PathVariable UUID gameKey, @PathVariable UUID guessKey) {
-    return gameService.getGuess(gameKey, guessKey, userService.getCurrentUser())
+    return gameService
+        .getGuess(gameKey, guessKey, userService.getCurrentUser())
         .orElseThrow();
   }
 
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+  public Iterable<Guess> get(@PathVariable UUID gameKey) {
+    return gameService
+        .get(gameKey, userService.getCurrentUser())
+        .map(Game::getGuesses)
+        .orElseThrow();
+  }
 }
