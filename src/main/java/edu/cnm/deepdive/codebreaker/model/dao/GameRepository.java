@@ -13,12 +13,6 @@ public interface GameRepository extends JpaRepository<Game, UUID> {
 
   Optional<Game> findByExternalKeyAndUser(UUID key, User user);
 
-  @Query("SELECT DISTINCT ga "
-      + "FROM Guess "
-      + "AS gu "
-      + "JOIN gu.game AS ga "
-      + "WHERE gu.exactMatches = ga.length "
-      + "AND ga.user = :user "
-      + "ORDER BY ga.length DESC")
+  @Query("SELECT DISTINCT ga FROM Guess AS gu JOIN gu.game AS ga WHERE gu.exactMatches = ga.length AND ga.user = :user ORDER BY ga.length DESC")
   Iterable<Game> getAllSolved(User user);
 }
